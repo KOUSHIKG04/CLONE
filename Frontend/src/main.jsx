@@ -4,13 +4,19 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import UserContext from "./Context/userContext";
+import CaptainContext from "./Context/CaptianContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      {" "}
-      <App />
-      <Toaster />
-    </BrowserRouter>
+    <CaptainContext>
+      <UserContext>
+        <BrowserRouter>
+          {" "}
+          <App />
+          <Toaster />
+        </BrowserRouter>
+      </UserContext>
+    </CaptainContext>
   </StrictMode>
 );

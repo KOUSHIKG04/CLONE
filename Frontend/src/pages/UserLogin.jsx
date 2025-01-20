@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserDataContext } from "@/Context/userContext";
+import toast from "react-hot-toast";
 
 const UserLogin = () => {
+
+  const { user, setUser } = useContext(UserDataContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,7 +26,38 @@ const UserLogin = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted: ", formData);
+
+    const { password, email } = formData;
+
+    const userData = {
+      email,
+      password,
+    };
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        userData
+      );
+      if (res.status === 201 || res.status === 200) {
+        const { user, token } = res.data;
+        setUser(user);
+        localStorage.setItem("token", token);
+        toast.success("User logged insuccessfully!");
+        navigate("/home");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log("Error response:", error.response.data);
+        toast.error(error.response.data.error || "Something went wrong!");
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        toast.error("No response from server!");
+      } else {
+        console.error("Error message:", error.message);
+        toast.error("An unexpected error occurred!");
+      }
+    }
   };
 
   return (
@@ -57,7 +94,6 @@ const UserLogin = () => {
           </Button>
           <div className="text-center">
             DON'T HAVE AN ACCOUNT?&#160;
-            
             <Link
               to="/signup"
               className="text-blue-600 font-medium underline cursor-pointer"

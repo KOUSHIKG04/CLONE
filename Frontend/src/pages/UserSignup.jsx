@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { UserDataContext } from "@/Context/userContext";
 
 const UserSignup = () => {
+
+  const { setUser } = useContext(UserDataContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -24,53 +29,72 @@ const UserSignup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted: ", formData);
-    const { password, cnfrPass } = formData;
+
+    const { password, cfnpassword, email, firstname, lastname } = formData;
 
     if (password.length < 8) {
-      // setError("PASSWORD MUST BE AT LEAST 8 CHARACTERS");
-      toast({
-        variant: "destructive",
-        title: "PASSWORD MUST BE AT LEAST 8 CHARACTERS",
-      });
+      toast.error("PASSWORD MUST BE AT LEAST 8 CHARACTERS");
       return;
     }
-    if (password.length < 8 && password !== cnfrPass) {
-      toast({
-        variant: "destructive",
-        title: "PASSWORD SHOULD MATCH, TRY AGAIN",
-      });
+    if (password !== cfnpassword) {
+      toast.error("PASSWORDS DO NOT MATCH");
       return;
     }
     if (!/[A-Z]/.test(password)) {
-      toast({
-        variant: "destructive",
-        title: "PASSWORD MUST CONTAIN AT LEAST ONE CAPITAL LETTER",
-      });
+      toast.error("PASSWORD MUST CONTAIN AT LEAST ONE CAPITAL LETTER");
       return;
     }
     if (!/[0-9]/.test(password)) {
-      toast({
-        variant: "destructive",
-        title: "PASSWORD MUST CONTAIN AT LEAST ONE NUMBER",
-      });
+      toast.error("PASSWORD MUST CONTAIN AT LEAST ONE NUMBER");
       return;
     }
     if (!/[!@#$%^&*()<>?/\|}{~\-]/.test(password)) {
-      toast({
-        variant: "destructive",
-        title: "PASSWORD MUST CONTAIN AT LEAST ONE SPECIAL CHARACTER",
-      });
+      toast.error("PASSWORD MUST CONTAIN AT LEAST ONE SPECIAL CHARACTER");
       return;
     }
 
-    setFormData({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      cfnpassword: "",
-    });
+    const newUser = {
+      fullname: {
+        firstname,
+        lastname,
+      },
+      email,
+      password,
+    };
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/register`,
+        newUser
+      );
+
+      if (res.status === 201 || res.status === 200) {
+        const { user, token } = res.data;
+        setUser(user);
+        localStorage.setItem("token", token);
+        toast.success("User registered successfully!");
+        navigate("/home");
+      }
+
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        cfnpassword: "",
+      });
+    } catch (error) {
+      if (error.response) {
+        console.log("Error response:", error.response.data);
+        toast.error(error.response.data.error || "Something went wrong!");
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        toast.error("No response from server!");
+      } else {
+        console.error("Error message:", error.message);
+        toast.error("An unexpected error occurred!");
+      }
+    }
   };
 
   return (

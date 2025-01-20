@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { CaptainDataContext } from "@/Context/CaptianContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const CaptainLogin = () => {
+  
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,7 +26,39 @@ const CaptainLogin = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted: ", formData);
+
+    const { email, password } = formData;
+
+    const captain = {
+      email,
+      password,
+    };
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captains/login`,
+        captain
+      );
+
+      if (res.status === 201 || res.status === 200) {
+        const { captain, token } = res.data;
+        setCaptain(captain);
+        localStorage.setItem("token", token);
+        toast.success("Captain logged insuccessfully!");
+        navigate("/captain-home");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log("Error response:", error.response.data);
+        toast.error(error.response.data.error || "Something went wrong!");
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        toast.error("No response from server!");
+      } else {
+        console.error("Error message:", error.message);
+        toast.error("An unexpected error occurred!");
+      }
+    }
   };
 
   return (

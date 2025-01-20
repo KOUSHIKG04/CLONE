@@ -55,7 +55,10 @@ const captainSchema = mongoose.Schema(
       vehicleType: {
         type: String,
         required: true,
-        enum: ["motorcycle", "car", "auto"],
+        enum: {
+          values: ["motorcycle", "car", "auto"],
+          message: "Vehicle type must be either motorcycle, car, or auto",
+        },
       },
     },
     location: {
@@ -72,8 +75,7 @@ const captainSchema = mongoose.Schema(
   }
 );
 
-
-captainSchema.methods.generateAuthToken = function() {
+captainSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
       _id: this._id,
@@ -84,15 +86,13 @@ captainSchema.methods.generateAuthToken = function() {
   return token;
 };
 
-
-captainSchema.statics.hashPassword = async function(password) {
-    return await bcrypt.hash(password, 11);
-}
+captainSchema.statics.hashPassword = async function (password) {
+  return await bcrypt.hash(password, 11);
+};
 
 captainSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
 
 captainSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
@@ -101,7 +101,6 @@ captainSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 11);
   next();
 });
-
 
 const Captain = mongoose.model("Captain", captainSchema);
 export default Captain;
