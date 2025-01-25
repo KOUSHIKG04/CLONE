@@ -1,9 +1,30 @@
 import React from "react";
 
-const LookingForDriver = ({ setConfirmRidePanel }) => {
+const LookingForDriver = ({ setConfirmRidePanel, setVehicleFound }) => {
   return (
     <div className="p-2">
-      
+      <h5
+        className="absolute top-7 right-5 items-center cursor-pointer p-2"
+        onClick={() => {
+          setVehicleFound(false);
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2.5}
+          stroke="currentColor"
+          className="size-6 text-gray-700"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m19.5 8.25-7.5 7.5-7.5-7.5"
+          />
+        </svg>
+      </h5>
+
       <h3 className="text-2xl font-semibold mb-5 text-center">
         LOOKING FOR DRIVER
       </h3>

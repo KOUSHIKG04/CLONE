@@ -6,6 +6,7 @@ import LocationSearchPanel from "@/components/LocationSearchPanel";
 import VehiclePannel from "@/components/VehiclePannel";
 import ConfirnRide from "@/components/ConfirnRide";
 import LookingForDriver from "@/components/LookingForDriver";
+import WaitngForDriver from "@/components/WaitngForDriver";
 
 const Home = () => {
   // State management grouped into an object
@@ -236,7 +237,24 @@ const Home = () => {
           setConfirmRidePanel={(val) => {
             setState((prev) => ({ ...prev, confirmRidePanel: val }));
           }}
+          setVehicleFound={(val) => {
+            setState((prev) => ({ ...prev, vehicleFound: val }));
+          }}
         />
+      </div>
+
+      <div
+        ref={(el) => (refs.current.waitingForDriver = el)}
+        className="fixed w-full z-10 bottom-0  bg-white px-4 py-8 rounded-t-xl
+        translate-y-full "
+        setWaitinggForDriver={(val) => {
+          setState((prev) => ({ ...prev, waitingForDriver: val }));
+        }}
+        setVehiclePanel={(val) => {
+          setState((prev) => ({ ...prev, vehiclePanel: val }));
+        }}
+      >
+        <WaitngForDriver />
       </div>
     </div>
   );
