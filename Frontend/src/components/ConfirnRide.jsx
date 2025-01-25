@@ -43,7 +43,7 @@ const ConfirnRide = ({
           src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg"
           alt=""
         />
-        <div className="w-full mt-5 p-4 border-2 border-gray-400 rounded-xl">
+        <div className="w-full mt-5 p-4 ">
           <div className="flex items-center gap-5 p-3  ">
             <svg
               xmlns="http://www.w3.org/2000/svg"

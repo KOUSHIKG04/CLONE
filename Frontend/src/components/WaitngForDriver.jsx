@@ -1,12 +1,12 @@
 import React from "react";
 
-const WaitngForDriver = ({ setWaitinggForDriver, setVehiclePanel }) => {
+const WaitngForDriver = ({ setWaitingForDriver, setVehiclePanel }) => {
   return (
     <div className="p-3">
       <h3
         className="absolute top-2 right-5 items-center cursor-pointer p-2"
         onClick={() => {
-          setWaitinggForDriver(false);
+          setWaitingForDriver(false);
         }}
       >
         <svg

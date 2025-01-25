@@ -247,14 +247,15 @@ const Home = () => {
         ref={(el) => (refs.current.waitingForDriver = el)}
         className="fixed w-full z-10 bottom-0  bg-white px-4 py-8 rounded-t-xl
         translate-y-full "
-        setWaitinggForDriver={(val) => {
-          setState((prev) => ({ ...prev, waitingForDriver: val }));
-        }}
-        setVehiclePanel={(val) => {
-          setState((prev) => ({ ...prev, vehiclePanel: val }));
-        }}
       >
-        <WaitngForDriver />
+        <WaitngForDriver
+          setWaitingForDriver={(val) => {
+            setState((prev) => ({ ...prev, waitingForDriver: val }));
+          }}
+          setVehiclePanel={(val) => {
+            setState((prev) => ({ ...prev, vehiclePanel: val }));
+          }}
+        />
       </div>
     </div>
   );
