@@ -8,7 +8,7 @@ import ConfirmRidePopUp from "@/components/ConfirmRidePopUp";
 
 const CaptainHome = () => {
   const [state, setState] = useState({
-    ridePopupPanel: false,
+    ridePopupPanel: true,
     confirmRidePopupPanel: false,
   });
 
@@ -90,7 +90,7 @@ const CaptainHome = () => {
 
       <div
         ref={(el) => (refs.current.ridePopupPanelRef = el)}
-        className="fixed w-full z-10 bottom-0 bg-white px-3 py-10 pt-8
+        className="fixed w-full z-10 bottom-0 bg-white px-3 pb-8 pt-4
         translate-y-full"
       >
         <RidePopUp

@@ -1,12 +1,13 @@
 import React from "react";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
-const RidePopUp = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
+const FinishRide = ({ setFinishRidePanel }) => {
   return (
     <div className="p-3">
       <h5
         className="p-1 text-center w-[93%] absolute top-0"
-        onClick={() => setRidePopupPanel(false)}
+        onClick={() => setFinishRidePanel(false)}
       >
         {/* <span className="absolute top-11 right-5 items-center cursor-pointer p-2">
           <svg
@@ -25,10 +26,10 @@ const RidePopUp = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
           </svg>
         </span> */}
       </h5>
-      <h3 className="text-2xl font-semibold p-2 text-center">
-        NEW RIDE AVAILABLE!
+      <h3 className="text-xl font-semibold p-2 text-center">
+        FINISH THIS RIDE
       </h3>
-      <div className="flex items-center justify-between py-5 px-7 bg-gray-200 rounded-xl mt-4">
+      <div className="flex items-center justify-between py-5 px-7 bg-gray-200 rounded-xl mt-4 ">
         <div className="flex items-center gap-3 ">
           <img
             className="h-12 rounded-full object-cover w-12"
@@ -62,8 +63,8 @@ const RidePopUp = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
               />
             </svg>
             <div
-              className="border-dashed absolute h-16 w-[3px] top-[48%] -translate-y-1/2 
-            left-[63.25px] bg-gray-400 rounded-full"
+              className="border-dashed absolute h-16 w-[3px] top-[46%] -translate-y-1/2 
+              left-[62.75px] bg-gray-400 rounded-full"
             ></div>
             <div className="mt-2">
               <h3 className="text-lg font-medium ">562/11-A</h3>
@@ -118,29 +119,28 @@ const RidePopUp = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-around w-full mt-5">
-          <Button
-            onClick={() => setRidePopupPanel(false)}
-            className="px-10 font-semibold py-6 text-black bg-slate-300 text-md
-          hover:text-white"
-          >
-            {" "}
-            IGNORE
-          </Button>
-          <Button
-            onClick={() => {
-              setRidePopupPanel(false);
-              setConfirmRidePopupPanel(true);
-            }}
-            className="px-10 py-6 bg-green-600 text-white font-semibold text-md
-            hover:bg-green-700 hover:text-white"
-          >
-            ACCEPT
-          </Button>
+
+        <div className="w-[95%]">
+          <div className="flex flex-col">
+            <Link
+              to="/captain-home"
+              className="w-full mt-8 py-3.5 bg-green-600 text-white font-semibold text-md
+              text-center hover:bg-green-700 hover:text-white rounded-lg"
+            >
+              FINISH RIDE
+            </Link>
+
+            <p
+              className="text-md  text-gray-700
+            text-center mt-4"
+            >
+              Click on finish ride if you recived the payment
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default RidePopUp;
+export default FinishRide;

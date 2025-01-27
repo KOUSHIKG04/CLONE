@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
+import { Input } from "./ui/input";
 
 const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
+  const [otp, setOtp] = useState("");
+  const submitHander = async (e) => {
+    e.preventDefault();
+  };
   return (
-    <div className="p-2">
+    <div className="p-3">
       <h5
         className="p-1 text-center w-[93%] absolute top-0"
         onClick={() => setRidePopupPanel(false)}
       >
-        <span className="absolute top-11 right-5 items-center cursor-pointer p-2">
+        {/* <span className="absolute top-11 right-5 items-center cursor-pointer p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -23,10 +29,12 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
               d="m19.5 8.25-7.5 7.5-7.5-7.5"
             />
           </svg>
-        </span>
+        </span> */}
       </h5>
-      <h3 className="text-2xl font-semibold p-2">NEW RIDE AVAILABLE!</h3>
-      <div className="flex items-center justify-between p-4 bg-yellow-200 rounded-lg mt-4">
+      <h3 className="text-xl font-semibold p-2 text-center">
+        CONFIRM THIS RIDE TO START
+      </h3>
+      <div className="flex items-center justify-between py-5 px-7 bg-gray-200 rounded-xl mt-4 ">
         <div className="flex items-center gap-3 ">
           <img
             className="h-12 rounded-full object-cover w-12"
@@ -60,8 +68,8 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
               />
             </svg>
             <div
-              className="border-dashed absolute h-16 w-[3px] top-[45%] -translate-y-1/2 
-              left-[58.5px] bg-gray-400 rounded-full"
+              className="border-dashed absolute h-16 w-[3px] top-[34%] -translate-y-1/2 
+              left-[62.75px] bg-gray-400 rounded-full"
             ></div>
             <div className="mt-2">
               <h3 className="text-lg font-medium ">562/11-A</h3>
@@ -116,23 +124,36 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
             </div>
           </div>
         </div>
-        <Button
-          onClick={() => {}}
-          className="w-full mt-5 py-4 bg-green-600 text-white font-semibold"
-        >
-          CONFIRM
-        </Button>
-        <Button
-          onClick={() => {
-            setRidePopupPanel(false);
-            setConfirmRidePopupPanel(false);
-          }}
-          className="w-full mt-2 font-semibold py-4 text-black bg-slate-300
+
+        <div className="mt-6 w-[95%]">
+          <form className="flex flex-col" onSubmit={submitHander}>
+            <Input
+              type="text"
+              placeholder="ENTER OTP"
+              className="bg-[#eeeeeee2] py-6 px-6 font-semibold text-xl"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />{" "}
+            <Link
+              to="/captain-riding"
+              className="w-full mt-8 py-3.5 bg-green-600 text-white font-semibold text-md
+              text-center hover:bg-green-700 hover:text-white rounded-lg"
+            >
+              CONFIRM
+            </Link>
+            <Button
+              onClick={() => {
+                setRidePopupPanel(false);
+                setConfirmRidePopupPanel(false);
+              }}
+              className="w-full mt-4 font-semibold py-6 text-black bg-slate-300 text-md
             hover:text-white"
-        >
-          {" "}
-          CANCEL
-        </Button>
+            >
+              {" "}
+              CANCEL
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );
