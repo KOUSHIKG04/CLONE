@@ -31,8 +31,11 @@ app.use(cookieParser());
 
 import userRoutes from "./Routes/user.routes.js";
 import captainRoutes from "./Routes/captian.routes.js";
+import mapsRoutes from "./Routes/maps.routes.js";
+
 app.use("/api/users", userRoutes);
 app.use("/api/captains", captainRoutes);
+app.use("/api/maps", mapsRoutes);
 
 
 
